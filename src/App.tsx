@@ -12,9 +12,15 @@ const envs = {
   // folder:'sanidad/2023'
 
   // Lite | Neo
+  // Qas
   api: 'https://tpo20dad94.execute-api.us-east-1.amazonaws.com/api/images-upload',
-  // api:'http://localhost:3054/api/imagenes-upload',
   bucket: 'https://pe-agritracer-files-neo-qas.s3.amazonaws.com/',
+  
+  // api: 'https://szbweansn0.execute-api.us-east-1.amazonaws.com/api/images-upload',
+  // bucket: 'https://pe-agritracer-files-neo-prod.s3.amazonaws.com/',  
+  
+  // api:'http://localhost:3054/api/imagenes-upload',
+  
   token: 'NgH^d!QYa|-m4M31PB1:x3?-Y>nY~h',
   folder: 'trabajadores'
 }
