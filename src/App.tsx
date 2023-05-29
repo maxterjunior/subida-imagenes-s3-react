@@ -13,16 +13,23 @@ const envs = {
 
   // Lite | Neo
   // Qas
-  api: 'https://tpo20dad94.execute-api.us-east-1.amazonaws.com/api/images-upload',
-  bucket: 'https://pe-agritracer-files-neo-qas.s3.amazonaws.com/',
+  // api: 'https://tpo20dad94.execute-api.us-east-1.amazonaws.com/api/images-upload',
+  // bucket: 'https://pe-agritracer-files-neo-qas.s3.amazonaws.com/',
   
   // api: 'https://szbweansn0.execute-api.us-east-1.amazonaws.com/api/images-upload',
   // bucket: 'https://pe-agritracer-files-neo-prod.s3.amazonaws.com/',  
   
   // api:'http://localhost:3054/api/imagenes-upload',
+
+  // api:'https://3ghp089rha.execute-api.us-east-1.amazonaws.com/api/s3-upload',
+  // api:'http://localhost:3000/api/s3-upload',
+  // bucket:'https://constru-tools-public-files.s3.amazonaws.com/',
+  // token: 'NgH^d!QYa|-m4M31PB1:x3?-Y>nY~h',
   
-  token: 'NgH^d!QYa|-m4M31PB1:x3?-Y>nY~h',
-  folder: 'trabajadores'
+  api:'https://cved1vm8ue.execute-api.us-east-1.amazonaws.com/api/imagenes-upload',
+  bucket:'https://workapp-safco-public-files-qas.s3.amazonaws.com/',
+  token:'04c82c94-ea23-48e3-bf50-9404c1bc1def',
+  folder: 'compras'
 }
 
 function App() {
@@ -47,6 +54,12 @@ function App() {
 
     const file = new File([archivo], Date.now() + archivo.name, { type: archivo.type });
 
+    // Si el archivo es mayor a 6MB no se envía
+    if (file.size > 6000000) {
+      setMensaje('El archivo es demasiado grande');
+      return;
+    }
+
     formData.append('folder', envs.folder);
     formData.append('content', file);
 
@@ -56,7 +69,6 @@ function App() {
         'Authorization': envs.token
       },
       body: formData,
-      // mode: 'no-cors'
     })
       .then(response => {
         if (response.ok) {
