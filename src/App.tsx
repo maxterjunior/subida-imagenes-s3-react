@@ -4,23 +4,13 @@ function App() {
   const [archivo, setArchivo] = useState<any>(null);
   const [img, setImg] = useState<any>(null);
   const [mensaje, setMensaje] = useState('');
-  const [params, setParams] = useState<{ api: string, bucket: string, token: string, folder: string }>({
+  const [params, setParams] = useState<{ api: string, bucket: string, token: string, folder: string, empresa?: string }>({
     api: 'https://xxx.execute-api.us-east-1.amazonaws.com/api/imagenes-upload',
     bucket: 'https://example.s3.amazonaws.com/',
     token: 'xxxxx',
-    folder: 'test'
+    folder: 'test',
+    empresa: ''
   } as any);
-
-  // useEffect(() => {
-  //   localStorage.setItem('params', JSON.stringify(params));
-  // }, [params]);
-
-  // useEffect(() => {
-  //   const params = localStorage.getItem('params');
-  //   if (params) {
-  //     setParams(JSON.parse(params));
-  //   }
-  // }, []);
 
   const manejarCambioArchivo = (evento) => {
     setArchivo(evento.target.files[0]);
@@ -48,11 +38,16 @@ function App() {
     formData.append('folder', params.folder);
     formData.append('content', file);
 
+    const headers = {
+      Authorization: params.token,
+      ...(params.empresa && { 'empresa': params.empresa })
+    }
+
+    console.log('headers', headers);
+
     fetch(params.api, {
       method: 'POST',
-      headers: {
-        'Authorization': params.token
-      },
+      headers,
       body: formData,
     })
       .then(response => {
@@ -105,6 +100,13 @@ function App() {
           type='text'
           value={params.folder}
           onChange={e => setParams({ ...params, folder: e.target.value })}
+        />
+        <label htmlFor='empresa'>Empresa</label>
+        <input
+          id='empresa'
+          type='text'
+          value={params.empresa}
+          onChange={e => setParams({ ...params, empresa: e.target.value })}
         />
       </form>
       <input type="file" onChange={manejarCambioArchivo} accept="image/*" />
